@@ -1,7 +1,7 @@
 export default () => ({ // eslint-disable-line
 
   // link file UUID
-  id: '',
+  id: 'e5d4e174-4002-11e7-9d56-25f963e998b2',
 
   // canonical URL of the published page
   // https://ig.ft.com/us-economic-dynamism get filled in by the ./configure script
