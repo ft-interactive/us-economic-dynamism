@@ -41,7 +41,7 @@ function drawLineChart(config) {
       dateKeys,
       dateParse = d3.timeParse(config.dateFormat),
       dateLabelParse = d3.timeParse('%m %Y'),
-      lineMargin = {top: 20, right: 30, bottom: 30, left: 50},
+      lineMargin = {top: 20, right: 30, bottom: 30, left: 40},
       lineWidth = d3.select(config.selectorId).node().offsetWidth - lineMargin.left - lineMargin.right,
       lineHeight = 350 - lineMargin.top - lineMargin.bottom;
 
@@ -99,8 +99,38 @@ function drawLineChart(config) {
           d.line = this;
           return approvalLine(d.values.filter(d => d.value));
         })
-        .attr("stroke", function(d){if(d.name == "US"){return "#a5526a"}})
-        .attr("stroke-width", function(d){if(d.name == "US"){return 3}});
+        .attr("stroke", function(d){if(d.name == "US"){return "#a5526a"}
+        })
+        .attr("stroke-width", function(d){if(d.name == "US"){return 3}
+        })
+        .attr('class',function(d){return d.name} + '-line');
+
+  // const staticNevada = g.append('text')
+  //     .attr('class', 'static-label')
+  //      .attr('x', (xApproval(dateParse(2010))))
+  //      .attr('y', yApproval(60))
+  //     .text("Nevada");
+
+  // const staticWestVirginia = g.append('text')
+  //     .attr('class', 'static-label')
+  //      .attr('x', (xApproval(dateParse(2014))))
+  //      .attr('y', yApproval(12))
+  //       .style('text-anchor','end')
+  //     .text("West Virginia");
+
+  // const staticNevadaLine = g.append('path')
+  //     .data(configData)
+  //     .enter().append('path')
+  //     .attr("d", function(d) {
+  //         if (d.name == "Nevada") {
+  //           d.line = this;
+  //           return approvalLine(d.values.filter(d => d.value));
+  //         }
+  //       })
+  //     .attr("stroke", "black")
+  //     .attr("stroke-width",3)
+  //     .attr("class", "Nevada")
+
 
   const legend = g.append('g')
 
@@ -119,10 +149,17 @@ function drawLineChart(config) {
 
     legend.append('line')
       .attr('id', 'recession-line')
-      .attr('x1', xApproval(dateParse(2009)))
-      .attr('x2', xApproval(dateParse(2009)))
+      .attr('x1', xApproval(dateLabelParse('12 2007')))
+      .attr('x2', xApproval(dateLabelParse('12 2007')))
       .attr('y1', yApproval(0))
       .attr('y2', yApproval(83));
+
+    legend.append('text')
+      .attr('id', 'recession-text')
+      .attr('x', xApproval(dateLabelParse('12 2007')))
+      .attr('y', yApproval(85))
+      .style('text-anchor', 'middle')
+      .text('Recession begins');
 
     const approvalFocus = g.append("g")
         .attr("transform", "translate(-100,-100)")
@@ -149,11 +186,15 @@ function drawLineChart(config) {
       d.data.president.line.parentNode.appendChild(d.data.president.line);
       approvalFocus.attr("transform", "translate(" + xApproval(d.data.date) + "," + yApproval(d.data.value) + ")");
       approvalFocus.select("text").text(d.data.president.name);
+      // staticNevada.style('visibility','hidden');
+      // staticWestVirginia.style('visibility','hidden');
     }
 
     function mouseout(d) {
       d3.select(d.data.president.line).classed("voronoi-hover", false);
       approvalFocus.attr("transform", "translate(-100,-100)");
+      // staticNevada.style('visibility','visible');
+      // staticWestVirginia.style('visibility','visible');
     }
 
   });
@@ -183,7 +224,7 @@ function drawLineChart(config) {
 function drawMap(config){
  let  mapMargin = {top: 20, right: 30, bottom: 30, left: 50},
       mapWidth = d3.select(config.selectorId).node().offsetWidth - mapMargin.left - mapMargin.right,
-      mapHeight = (mapWidth*.66) - mapMargin.top - mapMargin.bottom;
+      mapHeight = (mapWidth*.75) - mapMargin.top - mapMargin.bottom;
 
   document.querySelector(config.selectorId).innerHTML = '';
 
@@ -205,15 +246,16 @@ function drawMap(config){
     .projection(projection);
 
   const x = d3.scaleLinear()
-    .domain([10, 70])
+    .domain([10, 60])
     .rangeRound([(mapWidth * .25), (mapWidth * .75)]);
 
   const color = d3.scaleThreshold()
-      .range(["#7f4257","#bb6d82","#D36969","#F19F9E","#d6b2b2","#238fce","#69A1AA"])
-      .domain([10, 20, 30, 40, 50, 60, 70]);
+      .range(["#7f4257","#bb6d82","#D36969","#F19F9E","#d6b2b2","#238fce"])
+      .domain([10, 20, 30, 40, 50, 60]);
 
   const g = mapSvg.append("g")
       .attr("class", "key")
+      .attr("transform","translate(0," + (mapWidth/30) + ")")
 
   g.selectAll("rect")
     .data(color.range().map(function(d) {
@@ -235,7 +277,6 @@ function drawMap(config){
       .attr("fill", "#000")
       .attr("text-anchor", "start")
       .attr("font-weight", "bold")
-      .text("Unemployment rate");
 
   g.call(d3.axisBottom(x)
       .tickSize(13)
@@ -249,6 +290,8 @@ function drawMap(config){
       .defer(d3.tsv, 'data/stateData.tsv', function(d) { stateData.set(d.id, +d.dynamism); })
       .await(ready);
 
+      console.log(stateData)
+
   function ready(error, us) {
     if (error) throw error;
 
@@ -260,15 +303,13 @@ function drawMap(config){
         .attr("fill", function(d) { return color(d.dynamism = stateData.get(d.id)); })
         .attr("d", path)
         .attr("height", mapHeight/2)
-      // .append("title")
-      //   .text(function(d) { return d.dynamism; })
          .on("mouseover", function(d) {
             d3.select(this).transition().duration(300).style("opacity", 0.8);
             tooltip.transition().duration(300)
               .style("opacity", 1)
-            tooltip.html(d.State + "<br/>" + "Dynamism score of " + d.dynamism)
-              .style("left", (d3.event.pageX) + "px")
-              .style("top", (d3.event.pageY -30) + "px");
+            tooltip.html(stateData.get(d.State) + "<br/>" + "Dynamism score of " + d.dynamism)
+              .style("left", (d3.event.pageX - 75) + "px")
+              .style("top", (d3.event.pageY - 60) + "px");
           })
       .on("mouseout", function() {
           d3.select(this)
@@ -336,7 +377,31 @@ function drawScatter(config) {
         .attr("dy",".71em")
         .attr("text-anchor", "end")
           // .attr("transform", "translate(" + lineWidth + "," + -5 + ")")
-        .text('% foreign born');;
+        .text('% foreign born');
+
+    const nevadaScatterLabel = scatterSvg.append('text')
+        .attr('class','scatter-label')
+        .attr("transform", "translate(" + lineMargin.left + "," + lineMargin.top + ")")
+        .attr('x',xScale(50.5))
+        .attr('y',yScale(21))
+        .attr('text-anchor','middle')
+        .text('Nevada')
+
+    const californiaScatterLabel = scatterSvg.append('text')
+        .attr('class','scatter-label')
+        .attr("transform", "translate(" + lineMargin.left + "," + lineMargin.top + ")")
+        .attr('x',xScale(40.9))
+        .attr('y',yScale(29.1))
+        .attr('text-anchor','middle')
+        .text('California')
+
+    const wvScatterLabel = scatterSvg.append('text')
+        .attr('class','scatter-label')
+        .attr("transform", "translate(" + lineMargin.left + "," + lineMargin.top + ")")
+        .attr('x',xScale(19))
+        .attr('y',yScale(3))
+        .attr('text-anchor','end')
+        .text('West Virginia')
 
     scatterSvg.selectAll(".dot")
         .data(configData)
@@ -360,15 +425,30 @@ function drawScatter(config) {
                .style("opacity", .9)
           tooltip.html(d.State + "<br/>" + "Dynamism score of " + d.dynamism
           + "<br/>" + d.foreignBorn + "% foreign-born")
-               .style("left", (d3.event.pageX + 5) + "px")
-               .style("top", (d3.event.pageY - 28) + "px");
+               .style("left", (d3.event.pageX - 75) + "px")
+               .style("top", (d3.event.pageY - 60) + "px");
+          // nevadaScatterLabel.style('visibility','hidden');
+          // californiaScatterLabel.style('visibility','hidden');
       })
       .on("mouseout", function(d) {
           d3.select(this).transition().duration(300).style("opacity", .8).style("stroke-width",0);
           tooltip.transition()
                .duration(500)
                .style("opacity", 0);
+          // nevadaScatterLabel.style('visibility','visible');
+          // californiaScatterLabel.style('visibility','visible');
       });
+
+      scatterSvg.on('mouseover', function(d){
+         nevadaScatterLabel.style('visibility','hidden');
+          californiaScatterLabel.style('visibility','hidden');
+          wvScatterLabel.style('visibility','hidden');
+      })
+        .on('mouseout', function(d){
+          nevadaScatterLabel.style('visibility','visible');
+          californiaScatterLabel.style('visibility','visible');
+           wvScatterLabel.style('visibility','visible');
+        })
 
 
   })

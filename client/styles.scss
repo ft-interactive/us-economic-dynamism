@@ -39,6 +39,13 @@
   fill: #a5526a;
   text-shadow: #ffffff;
 }
+.static-label {
+	font-size: 20px;
+  font-family: MetricWeb;
+}
+#recession-text {
+	fill: #6b6e68
+}
 .focus text {
   text-anchor: middle;
   text-shadow: 0 1px 0 #fff1e0, 1px 0 0 #fff1e0, 0 -1px 0 #fff1e0, -1px 0 0 #fff1e0;
@@ -77,9 +84,3 @@ div.tooltip {
   border-radius: 8px;           
   pointer-events: none;         
 }   
-.tooltip {
-  position: absolute;
-  width: 200px;
-  height: 28px;
-  pointer-events: none;
-}

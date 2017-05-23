@@ -5,7 +5,7 @@
 
 {% markdown %}
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+{{data.intro}}
 
 {% endmarkdown %}
 
@@ -13,7 +13,7 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor i
 	<div class="o-grid-row">
 	    <div data-o-grid-colspan="12">
 	        <div class="o-typography-lead">Dynamism index</div>
-	        <div class="o-typography-lead--small">By state, 1992-2014</div>
+	        <div class="o-typography-lead--small">All states, 1992-2014</div>
 				<div id='sdi-historical-graphic'></div>
 			<div class="ft-source">Source: Economic Innovation Group</div>
 	   	</div>
@@ -22,14 +22,14 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor i
 
 {% markdown %}
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+{{data.textone}}
 
 {% endmarkdown %}
 
 <div class="o-grid-container">
 	<div class="o-grid-row">
 	    <div data-o-grid-colspan="12">
-	        <div class="o-typography-lead">The states near the Great Lakes that delivered surprising victories for Trump are also among the least dynamic</div>
+	        <div class="o-typography-lead">The Great Lakes states that delivered surprising victories for Trump are also among the least dynamic</div>
 	        <div class="o-typography-lead--small">Dynamism index by state in 2014</div>
 				<div id='sdi-map'></div>
 			<div class="ft-source">Source: Economic Innovation Group</div>
@@ -39,7 +39,9 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor i
 
 {% markdown %}
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+{{data.texttwo}}
+
+{% endmarkdown %}
 
 <div class="o-grid-container">
 	<div class="o-grid-row">
@@ -52,16 +54,9 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor i
 	</div>
 </div>
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+{% markdown %}
 
-{# START MID AD SLOT
-    You can move this wherever it works best in your page's design.
-    For more control over the size, write your own o-ads div - see
-    https://financial-times.github.io/o-ads/docs/developer-guide/display #}
-{% if ads %}{{ macros.middleAd() }}{% endif %}
-{# END MID AD SLOT #}
-
-Text here
+{{data.textthree}}
 
 {% endmarkdown %}
 {% endblock %}
