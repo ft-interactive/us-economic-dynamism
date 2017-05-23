@@ -222,7 +222,7 @@ function drawLineChart(config) {
 }
 
 function drawMap(config){
- let  mapMargin = {top: 20, right: 30, bottom: 30, left: 50},
+ let  mapMargin = {top: 20, right: 10, bottom: 30, left: 50},
       mapWidth = d3.select(config.selectorId).node().offsetWidth - mapMargin.left - mapMargin.right,
       mapHeight = (mapWidth*.75) - mapMargin.top - mapMargin.bottom;
 
@@ -237,10 +237,11 @@ function drawMap(config){
       .attr('height', mapHeight + mapMargin.top + mapMargin.bottom);
 
   const stateData = d3.map();
+  const stateNames = d3.map();
 
   const projection = d3.geoAlbersUsa()
-    .translate([mapWidth / 1.8, mapHeight / 1.5]) 
-    .scale([mapWidth]);
+    .translate([mapWidth / 1.8, (mapHeight / 1.8) + 30]) 
+    .scale([(mapWidth*1.15)]);
 
   const path = d3.geoPath()
     .projection(projection);
@@ -287,10 +288,13 @@ function drawMap(config){
 
   d3.queue()
       .defer(d3.json, 'data/us.json')
-      .defer(d3.tsv, 'data/stateData.tsv', function(d) { stateData.set(d.id, +d.dynamism); })
+      .defer(d3.tsv, 'data/stateData.tsv', function(d) { 
+        stateData.set(d.id, +d.dynamism);
+        stateNames.set(d.id, d.State);
+      })
       .await(ready);
 
-      console.log(stateData)
+      console.log(stateNames)
 
   function ready(error, us) {
     if (error) throw error;
@@ -302,12 +306,12 @@ function drawMap(config){
       .enter().append("path")
         .attr("fill", function(d) { return color(d.dynamism = stateData.get(d.id)); })
         .attr("d", path)
-        .attr("height", mapHeight/2)
+        .attr("height", mapHeight/1.2)
          .on("mouseover", function(d) {
             d3.select(this).transition().duration(300).style("opacity", 0.8);
             tooltip.transition().duration(300)
               .style("opacity", 1)
-            tooltip.html(stateData.get(d.State) + "<br/>" + "Dynamism score of " + d.dynamism)
+            tooltip.html(d.State = stateNames.get(d.id) + "<br/>" + "Dynamism score of " + d.dynamism)
               .style("left", (d3.event.pageX - 75) + "px")
               .style("top", (d3.event.pageY - 60) + "px");
           })
@@ -363,7 +367,7 @@ function drawScatter(config) {
         .attr("transform", "translate(" + lineMargin.left + "," + (lineHeight + lineMargin.top) + ")")
         .call(d3.axisBottom(xScale).ticks(5))
         .append('text')
-          .attr("transform", "translate(" + lineWidth + "," + -5 + ")")
+          .attr("transform", "translate(" + (lineWidth + 10) + "," + -5 + ")")
           .attr("text-anchor", "end")
         .text('Dynamism score');
 
@@ -408,11 +412,11 @@ function drawScatter(config) {
       .enter().append("circle")
         .attr("transform", "translate(" + lineMargin.left + "," + lineMargin.top + ")")
         .attr("class", "dot")
-        .attr("r", 8)
+        .attr("r", 5)
         .attr("cx", function(d) { return xScale(d.dynamism); })
         .attr("cy", function(d) { return yScale(d.foreignBorn); })
         .style('fill', '#a5526a')
-        .style('opacity',.8)
+        .style('opacity',.7)
       .on("mouseover", function(d) {
           d3.select(this).transition()
             .duration(300)
