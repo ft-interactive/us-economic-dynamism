@@ -295,8 +295,6 @@ function drawMap(config){
       })
       .await(ready);
 
-      console.log(stateNames)
-
   function ready(error, us) {
     if (error) throw error;
 
@@ -431,7 +429,6 @@ function drawScatter(config) {
             .style("opacity", 1)
             .style("stroke","black")
             .style("stroke-width",1);
-            console.log(tooltip);
           tooltip.transition()
                .duration(200)
                .style("opacity", .9)

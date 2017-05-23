@@ -9,13 +9,12 @@ export default () => ({ // eslint-disable-line
 
   // To set an exact publish date do this:
   //       new Date('2016-05-17T17:11:22Z')
-  publishedDate: new Date(),
+  publishedDate: new Date('2016-05-24T05:00:00Z'),
 
-  headline: 'Dynamism headline',
+  headline: 'Economic dynamism falls across the US',
 
   // summary === standfirst (Summary is what the content API calls it)
-  summary: 'Subhed here' +
-           ' ',
+  summary: 'New research finds just seven states bucked long-term trend since the last recession',
 
   topic: {
     name: 'US Economy',
