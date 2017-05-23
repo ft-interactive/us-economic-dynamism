@@ -18,7 +18,7 @@ export default () => ({ // eslint-disable-line
            ' ',
 
   topic: {
-    name: 'US economy',
+    name: 'US Economy',
     url: 'https://www.ft.com/us-economy',
   },
 
@@ -30,7 +30,7 @@ export default () => ({ // eslint-disable-line
   mainImage: {
     title: '',
     description: '',
-    credit: '',
+    credit: 'Bloomberg',
     url: 'https://www.ft.com/__origami/service/image/v2/images/raw/http%3A%2F%2Fcom.ft.imagepublish.prod-us.s3.amazonaws.com%2Fdc96b5de-de3b-11e6-86ac-f253db7791c6?source=next&fit=scale-down&width=700',
     width: 2048, // ensure correct width
     height: 1152, // ensure correct height

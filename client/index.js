@@ -41,7 +41,7 @@ function drawLineChart(config) {
       dateKeys,
       dateParse = d3.timeParse(config.dateFormat),
       dateLabelParse = d3.timeParse('%m %Y'),
-      lineMargin = {top: 20, right: 30, bottom: 30, left: 40},
+      lineMargin = {top: 20, right: 40, bottom: 30, left: 20},
       lineWidth = d3.select(config.selectorId).node().offsetWidth - lineMargin.left - lineMargin.right,
       lineHeight = 350 - lineMargin.top - lineMargin.bottom;
 
@@ -88,7 +88,8 @@ function drawLineChart(config) {
 
     g.append("g")
         .attr("class", "y-axis axis")
-        .call(d3.axisLeft(yApproval).ticks(3));
+        .attr("transform", "translate(" + lineWidth + ",0)")
+        .call(d3.axisRight(yApproval).ticks(3));
 
     g.append("g")
         .attr("class", "voronoi-lines")
@@ -102,8 +103,8 @@ function drawLineChart(config) {
         .attr("stroke", function(d){if(d.name == "US"){return "#a5526a"}
         })
         .attr("stroke-width", function(d){if(d.name == "US"){return 3}
-        })
-        .attr('class',function(d){return d.name} + '-line');
+        });
+        // .attr('class',function(d){return d.name} + '-line');
 
   // const staticNevada = g.append('text')
   //     .attr('class', 'static-label')
@@ -251,7 +252,7 @@ function drawMap(config){
     .rangeRound([(mapWidth * .25), (mapWidth * .75)]);
 
   const color = d3.scaleThreshold()
-      .range(["#7f4257","#bb6d82","#D36969","#F19F9E","#d6b2b2","#238fce"])
+      .range(["#b31147","#d44d41","#e67f64","#f1ae92","#f3dec8","#95c8d4"])
       .domain([10, 20, 30, 40, 50, 60]);
 
   const g = mapSvg.append("g")
@@ -331,7 +332,7 @@ function drawMap(config){
 }
 
 function drawScatter(config) {
-  let lineMargin = {top: 20, right: 30, bottom: 30, left: 50},
+  let lineMargin = {top: 30, right: 20, bottom: 30, left: 50},
       lineWidth = d3.select(config.selectorId).node().offsetWidth - lineMargin.left - lineMargin.right,
       lineHeight = 300 - lineMargin.top - lineMargin.bottom;
 
@@ -376,28 +377,28 @@ function drawScatter(config) {
         .attr("transform", "translate(" + lineMargin.left + "," + lineMargin.top + ")")
         .call(d3.axisLeft(yScale).ticks(3))
         .append('text')
-        .attr("transform", "rotate(-90)")
-        .attr("y", 8)
-        .attr("dy",".71em")
-        .attr("text-anchor", "end")
-          // .attr("transform", "translate(" + lineWidth + "," + -5 + ")")
+        // .attr("transform", "rotate(-90)")
+        .attr("y", -10)
+        // .attr("dy",".71em")
+        // .attr("text-anchor", "end")
+        .attr("transform", "translate(" + lineMargin.left + ",0)")
         .text('% foreign born');
 
     const nevadaScatterLabel = scatterSvg.append('text')
         .attr('class','scatter-label')
         .attr("transform", "translate(" + lineMargin.left + "," + lineMargin.top + ")")
         .attr('x',xScale(50.5))
-        .attr('y',yScale(21))
+        .attr('y',yScale(20.9))
         .attr('text-anchor','middle')
-        .text('Nevada')
+        .text('Nevada');
 
     const californiaScatterLabel = scatterSvg.append('text')
         .attr('class','scatter-label')
         .attr("transform", "translate(" + lineMargin.left + "," + lineMargin.top + ")")
         .attr('x',xScale(40.9))
-        .attr('y',yScale(29.1))
+        .attr('y',yScale(28.6))
         .attr('text-anchor','middle')
-        .text('California')
+        .text('California');
 
     const wvScatterLabel = scatterSvg.append('text')
         .attr('class','scatter-label')
@@ -405,7 +406,7 @@ function drawScatter(config) {
         .attr('x',xScale(19))
         .attr('y',yScale(3))
         .attr('text-anchor','end')
-        .text('West Virginia')
+        .text('West Virginia');
 
     scatterSvg.selectAll(".dot")
         .data(configData)
@@ -417,6 +418,13 @@ function drawScatter(config) {
         .attr("cy", function(d) { return yScale(d.foreignBorn); })
         .style('fill', '#a5526a')
         .style('opacity',.7)
+        .style('stroke', function(d){if(d.State == 'California')
+          {return 'black'}
+          else if(d.State == 'Nevada')
+          {return 'black'}
+          else if(d.State == 'West Virginia')
+          {return 'black'}
+        })
       .on("mouseover", function(d) {
           d3.select(this).transition()
             .duration(300)
@@ -443,17 +451,16 @@ function drawScatter(config) {
           // californiaScatterLabel.style('visibility','visible');
       });
 
-      scatterSvg.on('mouseover', function(d){
-         nevadaScatterLabel.style('visibility','hidden');
-          californiaScatterLabel.style('visibility','hidden');
-          wvScatterLabel.style('visibility','hidden');
-      })
-        .on('mouseout', function(d){
-          nevadaScatterLabel.style('visibility','visible');
-          californiaScatterLabel.style('visibility','visible');
-           wvScatterLabel.style('visibility','visible');
-        })
-
+      // scatterSvg.on('mouseover', function(d){
+      //    nevadaScatterLabel.style('visibility','hidden');
+      //     californiaScatterLabel.style('visibility','hidden');
+      //     wvScatterLabel.style('visibility','hidden');
+      // })
+      //   .on('mouseout', function(d){
+      //     nevadaScatterLabel.style('visibility','visible');
+      //     californiaScatterLabel.style('visibility','visible');
+      //      wvScatterLabel.style('visibility','visible');
+      //   })
 
   })
 }
