@@ -252,7 +252,7 @@ function drawMap(config){
     .rangeRound([(mapWidth * .25), (mapWidth * .75)]);
 
   const color = d3.scaleThreshold()
-      .range(["#0a3866","#c6d6cc","#5aa8ae","#2e8790","#0d656f","#00464d"])
+      .range(["#C6D6CC","#AECFCA","#5aa8ae","#2e8790","#0d656f","#00464d"])
       .domain([10, 20, 30, 40, 50, 60]);
 
   const g = mapSvg.append("g")
