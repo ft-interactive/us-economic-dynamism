@@ -25,6 +25,7 @@ export default () => ({ // eslint-disable-line
   //   text: 'Related article »',
   //   url: 'https://en.wikipedia.org/wiki/Politics_and_the_English_Language',
   // },
+  
 
   mainImage: {
     title: '',
