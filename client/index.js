@@ -272,7 +272,6 @@ function drawMap(config){
       .attr("width", function(d) { return x(d[1]) - x(d[0]); })
       .attr("fill", function(d) { return color(d[0]); });
 
-
   g.append("text")
       .attr("class", "caption")
       .attr("x", x.range()[0])
@@ -376,10 +375,7 @@ function drawScatter(config) {
         .attr("transform", "translate(" + lineMargin.left + "," + lineMargin.top + ")")
         .call(d3.axisLeft(yScale).ticks(3))
         .append('text')
-        // .attr("transform", "rotate(-90)")
         .attr("y", -10)
-        // .attr("dy",".71em")
-        // .attr("text-anchor", "end")
         .attr("transform", "translate(" + lineMargin.left + ",0)")
         .text('% foreign born');
 
@@ -437,28 +433,13 @@ function drawScatter(config) {
           + "<br/>" + d.foreignBorn + "% foreign-born")
                .style("left", (d3.event.pageX - 75) + "px")
                .style("top", (d3.event.pageY - 60) + "px");
-          // nevadaScatterLabel.style('visibility','hidden');
-          // californiaScatterLabel.style('visibility','hidden');
       })
       .on("mouseout", function(d) {
           d3.select(this).transition().duration(300).style("opacity", .8).style("stroke-width",0);
           tooltip.transition()
                .duration(500)
                .style("opacity", 0);
-          // nevadaScatterLabel.style('visibility','visible');
-          // californiaScatterLabel.style('visibility','visible');
       });
-
-      // scatterSvg.on('mouseover', function(d){
-      //    nevadaScatterLabel.style('visibility','hidden');
-      //     californiaScatterLabel.style('visibility','hidden');
-      //     wvScatterLabel.style('visibility','hidden');
-      // })
-      //   .on('mouseout', function(d){
-      //     nevadaScatterLabel.style('visibility','visible');
-      //     californiaScatterLabel.style('visibility','visible');
-      //      wvScatterLabel.style('visibility','visible');
-      //   })
 
   })
 }
