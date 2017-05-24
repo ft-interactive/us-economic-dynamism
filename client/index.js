@@ -270,7 +270,7 @@ function drawMap(config){
       .attr("height", 8)
       .attr("x", function(d) { return x(d[0]); })
       .attr("width", function(d) { return x(d[1]) - x(d[0]); })
-      .attr("fill", function(d) { return color(d[0]); });
+      .attr("fill", function(d) { return color(d[0]); });     
 
   g.append("text")
       .attr("class", "caption")
