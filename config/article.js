@@ -43,10 +43,10 @@ export default () => ({ // eslint-disable-line
   ],
 
   // Appears in the HTML <title>
-  title: '',
+  title: 'Economic dynamism falls across the US',
 
   // meta data
-  description: '',
+  description: 'New research finds just seven states bucked long-term trend since the last recession',
 
   /*
   TODO: Select Twitter card type -
