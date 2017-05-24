@@ -252,7 +252,7 @@ function drawMap(config){
     .rangeRound([(mapWidth * .25), (mapWidth * .75)]);
 
   const color = d3.scaleThreshold()
-      .range(["#0a3866","#96c8c7","#5aa8ae","#2e8790","#0d656f","#00464d"])
+      .range(["#0a3866","#c6d6cc","#5aa8ae","#2e8790","#0d656f","#00464d"])
       .domain([10, 20, 30, 40, 50, 60]);
 
   const g = mapSvg.append("g")
@@ -271,7 +271,7 @@ function drawMap(config){
       .attr("x", function(d) { return x(d[0]); })
       .attr("width", function(d) { return x(d[1]) - x(d[0]); })
       .attr("fill", function(d) { return color(d[0]); });
-      
+
 
   g.append("text")
       .attr("class", "caption")
